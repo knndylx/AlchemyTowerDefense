@@ -21,6 +21,8 @@ namespace AlchemyTowerDefense.GameData
 
         //y, x OR row, column
         public Tile[,] terrainTiles = new Tile[15, 20];
+        public List<Decoration> Decorations { get; private set; }
+
 
         //size of the terrain tiles that will be used
         int size = 64;
@@ -37,24 +39,6 @@ namespace AlchemyTowerDefense.GameData
                 terrainTiles = LoadFromFile("map.txt");
             }
         }
-
-        //public List<Tile> CreateBlankMap()
-        //{
-        //    List<Tile> terrainTiles = new List<Tile>();
-        //    string tileType = "blank";
-        //
-        //    int x = 0;
-        //    int y = 0;
-        //    for (x = 0; x < 20; x++)
-        //    {
-        //        for (y = 0; y < 15; y++)
-        //        {
-        //            terrainTiles.Add(new Tile(new Rectangle(x * size, y * size, size, size), textureDict.dict[tileType]));
-        //
-        //        }
-        //    }
-        //    return terrainTiles;
-        //}
 
         public Tile[,] CreateBlankMap()
         {
