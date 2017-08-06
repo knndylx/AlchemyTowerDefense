@@ -110,9 +110,14 @@ namespace AlchemyTowerDefense.GameData
             return mapText;
         }
 
-        public void changeTile(int x, int y, Texture2D t)
+        public void ChangeTile(int x, int y, Texture2D t)
         {
             terrainTiles[y,x] = new Tile(new Rectangle(x * size, y * size, size, size), t); 
+        }
+
+        public void PaintDecoration(int posx, int posy, Texture2D t)
+        {
+            Decorations.Add(new Decoration(new Rectangle(posx - (size/2), posy - (size/2), size, size), t));
         }
 
         public void Draw(SpriteBatch spriteBatch)

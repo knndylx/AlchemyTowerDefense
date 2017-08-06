@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AlchemyGame.cs" />
     <Compile Include="Editor\Toolbox.cs" />
+    <Compile Include="GameData\Decoration.cs" />
     <Compile Include="Util\Button.cs" />
     <Compile Include="EditorState.cs" />
     <Compile Include="GameData\Map.cs" />

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AlchemyTowerDefense.Util;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -18,16 +19,18 @@ namespace AlchemyTowerDefense.Editor
 
         TextureDict toolboxTD;
         TextureDict tilesTextureDict;
+        TextureDict mouseTextures;
 
         public List<Button> tileButtons = new List<Button>();
 
         private Rectangle rect;
         public bool active = false;
 
-        public void LoadContent(ContentManager c)
+        public void LoadContent(ContentManager c, TextureDict mouseTextures)
         {
             toolboxTD = new TextureDict(c, "toolbox");
             tilesTextureDict = new TextureDict(c, "tiles");
+            this.mouseTextures = mouseTextures;
             background = toolboxTD.dict["toolboxbackground"];
             rect = new Rectangle(1280 - background.Width, 0, background.Width, background.Height);
             PopulateToolbox();
@@ -47,6 +50,41 @@ namespace AlchemyTowerDefense.Editor
                     i = 0;
                     k++;
                 }
+            }
+        }
+
+        public void Update()
+        {
+            if (active)
+            {
+                foreach (Util.Button b in tileButtons)
+                {
+                    if (b.rect.Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                    {
+                        b.Highlight(mouseTextures.dict["highlight"]);
+                    }
+                    else
+                    {
+                        b.Dehighlight();
+                    }
+                }
+            }
+        }
+
+        public Texture2D Click()
+        {
+            Util.Button hButton = null;
+            foreach (Util.Button b in tileButtons)
+            {
+                if (b.highlight == true) hButton = b;
+            }
+            if (hButton != null)
+            {
+                return hButton.texture;
+            }
+            else
+            {
+                return null;
             }
         }
 

@@ -17,10 +17,11 @@ namespace AlchemyTowerDefense
     {
         GameData.Map map = new GameData.Map();
 
-        TextureDict td;
-        TextureDict mousetd;
+        TextureDict tileTextures;
+        TextureDict mouseTextures;
+        TextureDict decorationTextures;
 
-        Texture2D tileBrushTile;
+        Texture2D brushTexture;
         Texture2D mouseTexture;
         Texture2D highlightGridTexture;
 
@@ -69,12 +70,13 @@ namespace AlchemyTowerDefense
 
         public override void LoadContent(ContentManager c)
         {
-            td = new TextureDict(c, "tiles");
-            mousetd = new TextureDict(c, "icons");
-            tileBrushTile = td.dict["towerDefense_tile069"];
-            mouseTexture = mousetd.dict["cursor"];
-            highlightGridTexture = mousetd.dict["highlight"];
-            toolbox.LoadContent(c);
+            tileTextures = new TextureDict(c, "tiles");
+            mouseTextures = new TextureDict(c, "icons");
+            decorationTextures = new TextureDict(c, "decos");
+            brushTexture = tileTextures.dict["blank"];
+            mouseTexture = mouseTextures.dict["cursor"];
+            highlightGridTexture = mouseTextures.dict["highlight"];
+            toolbox.LoadContent(c, mouseTextures);
             map.LoadContent(c);
             base.LoadContent(c);
         }
@@ -82,43 +84,44 @@ namespace AlchemyTowerDefense
         public override void Update()
         {
             mInputProcessor.Update();
-            UpdateCursor();
-            HandleInput();
-            if(toolbox.active == true)
+            if (canvasActive)
             {
-                foreach(Util.Button b in toolbox.tileButtons)
-                {
-                    if (b.rect.Contains(Mouse.GetState().X, Mouse.GetState().Y))
-                    {
-                        b.Highlight(highlightGridTexture);
-                    }
-                    else
-                    {
-                        b.Dehighlight();
-                    }
-                }
+                UpdateCursor();
             }
+            HandleInput();
+            toolbox.Update();
             base.Update();
         }
 
         private void HandleInput()
         {
             //if the left mouse button is pressed then paint the tile onto the map
-            if(mInputProcessor.currentMouseState[Util.MouseButtons.Left] == ButtonState.Pressed && canvasActive == true)
+            if (mInputProcessor.currentMouseState[Util.MouseButtons.Left] == ButtonState.Pressed && canvasActive == true)
             {
                 //Console.WriteLine(string.Format("changing tile at x:{0} y:{1}",gridx, gridy));
-                if (map.terrainTiles[gridy, gridx].texture != tileBrushTile)
-                    map.changeTile(gridx, gridy, tileBrushTile);
-            } else if(mInputProcessor.currentMouseState[Util.MouseButtons.Left] == ButtonState.Pressed && toolbox.active == true)
-            {
-                Util.Button hButton = null;
-                foreach(Util.Button b in toolbox.tileButtons)
+
+                //if the brush is a tile
+                if (tileTextures.dict.ContainsValue(brushTexture))
                 {
-                    if (b.highlight == true) hButton = b;
+                    if (map.terrainTiles[gridy, gridx].texture != brushTexture)
+                        map.ChangeTile(gridx, gridy, brushTexture);
                 }
-                if (hButton != null)
+                //else if the brush is a decoration
+                else if (decorationTextures.dict.ContainsValue(brushTexture))
                 {
-                    tileBrushTile = hButton.texture;
+                    if(mInputProcessor.previousMouseState[Util.MouseButtons.Left] == ButtonState.Released)
+                    {
+                        map.PaintDecoration(Mouse.GetState().X, Mouse.GetState().Y, brushTexture);
+                    }
+                }
+            }
+            //if the toolbox is active and the user clicked
+            else if (mInputProcessor.currentMouseState[Util.MouseButtons.Left] == ButtonState.Pressed && toolbox.active == true)
+            {
+                Texture2D textureClick = toolbox.Click();
+                if (textureClick != null)
+                {
+                    brushTexture = textureClick;
                 }
             }
 
@@ -143,7 +146,8 @@ namespace AlchemyTowerDefense
         public override void Draw(SpriteBatch spriteBatch)
         {
             map.Draw(spriteBatch);
-            spriteBatch.Draw(highlightGridTexture, new Vector2(cursorx, cursory), Color.White);
+            if(canvasActive)
+                spriteBatch.Draw(highlightGridTexture, new Vector2(cursorx, cursory), Color.White);
             toolbox.Draw(spriteBatch);
             spriteBatch.Draw(mouseTexture, new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, mouseTexture.Width, mouseTexture.Height), Color.White);
             base.Draw(spriteBatch);
