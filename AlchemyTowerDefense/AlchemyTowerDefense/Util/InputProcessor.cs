@@ -14,6 +14,7 @@ namespace AlchemyTowerDefense.Util
 
         public Dictionary<Keys, bool> previousButtonStates = new Dictionary<Keys, bool>();
         public Dictionary<Keys, bool> currentButtonStates = new Dictionary<Keys, bool>();
+        public int currentScrollWheel, previousScrollWheel;
 
         public Dictionary<Util.MouseButtons, ButtonState> previousMouseState = new Dictionary<Util.MouseButtons, ButtonState>();
         public Dictionary<Util.MouseButtons, ButtonState> currentMouseState = new Dictionary<Util.MouseButtons, ButtonState>();
@@ -36,11 +37,14 @@ namespace AlchemyTowerDefense.Util
             currentButtonStates = new Dictionary<Keys, bool>(previousButtonStates);
             previousMouseState.Add(Util.MouseButtons.Right, mouseState.RightButton);
             previousMouseState.Add(Util.MouseButtons.Left, mouseState.LeftButton);
+            previousScrollWheel = mouseState.ScrollWheelValue;
+            currentScrollWheel = previousScrollWheel;
             currentMouseState = new Dictionary<Util.MouseButtons, ButtonState>(previousMouseState);
         }
 
         public void Update()
         {
+            previousScrollWheel = currentScrollWheel;
             previousMouseState = new Dictionary<Util.MouseButtons, ButtonState>(currentMouseState);
             previousButtonStates = new Dictionary<Keys, bool>(currentButtonStates);
 
@@ -53,7 +57,7 @@ namespace AlchemyTowerDefense.Util
             {
                 currentButtonStates[k] = keyState.IsKeyDown(k);
             }
-
+            currentScrollWheel = mState.ScrollWheelValue;
             currentMouseState[Util.MouseButtons.Right] = mState.RightButton;
             currentMouseState[Util.MouseButtons.Left] = mState.LeftButton;
             //Console.WriteLine(string.Format("Current mouse state: {0} // Previous mouse state: {1}", currentMouseState[Util.MouseButtons.Left], previousMouseState[Util.MouseButtons.Left]));

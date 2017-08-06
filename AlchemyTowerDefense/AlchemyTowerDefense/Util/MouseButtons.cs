@@ -12,7 +12,6 @@ namespace AlchemyTowerDefense.Util
         Left = 0x1,
         Middle = 0x2,
         Right = 0x4,
-        X1 = 0x8,
-        X2 = 0x10
+        ScrollWheel = 0x8
     }
 }

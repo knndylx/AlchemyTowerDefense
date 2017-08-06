@@ -57,10 +57,11 @@ namespace AlchemyTowerDefense.Editor
             }
         }
 
-        public void Update()
+        public void Update(InputProcessor ip)
         {
             if (active)
             {
+                HandleInput(ip);
                 foreach (Util.Button b in tileButtons)
                 {
                     if (b.rect.Contains(Mouse.GetState().X, Mouse.GetState().Y))
@@ -75,9 +76,32 @@ namespace AlchemyTowerDefense.Editor
             }
         }
 
-        private void HandleInput()
+        private void HandleInput(InputProcessor ip)
         {
-
+            int scrollAmount = 20;
+            //scroll down
+            if (ip.currentScrollWheel < ip.previousScrollWheel)
+            {
+                if (!(tileButtons[tileButtons.Count - 1].rect.Bottom < (960 - 20) ))
+                {
+                    foreach (Button b in tileButtons)
+                    {
+                        b.ChangeRect(new Rectangle(b.rect.X, b.rect.Y - scrollAmount, b.rect.Width, b.rect.Height));
+                    }
+                }
+            }
+            //scroll up
+            else if(ip.currentScrollWheel > ip.previousScrollWheel)
+            {
+                if(!(tileButtons[0].rect.Top > 20))
+                {
+                    foreach (Button b in tileButtons)
+                    {
+                        b.ChangeRect(new Rectangle(b.rect.X, b.rect.Y + scrollAmount, b.rect.Width, b.rect.Height));
+                    }
+                }
+                
+            }
         }
 
         public Texture2D Click()

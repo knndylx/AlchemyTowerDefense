@@ -89,7 +89,7 @@ namespace AlchemyTowerDefense
                 UpdateCursor();
             }
             HandleInput();
-            toolbox.Update();
+            toolbox.Update(mInputProcessor);
             base.Update();
         }
 
