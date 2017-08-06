@@ -28,6 +28,14 @@ namespace AlchemyTowerDefense.GameData
             rotation = MathHelper.ToRadians(d);
         }
 
+        public Decoration(Rectangle r, Texture2D t, float rot)
+        {
+            rect = r;
+            texture = t;
+            origin = new Vector2(texture.Width / 2, texture.Height / 2);
+            rotation = rot;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, rect, null, Color.White, rotation, origin, SpriteEffects.None, 0);

@@ -24,6 +24,9 @@ namespace AlchemyTowerDefense
             mainmenu.PressEvent += OnStateChange;
             states.Add(new PlayingState());
             states.Add(new EditorState());
+            MenuState editorPauseMenu = new MenuState();
+            states.Add(editorPauseMenu);
+            mainmenu.PressEvent += OnStateChange;
             currentState = states[State];
         }
 
