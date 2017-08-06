@@ -38,6 +38,7 @@ namespace AlchemyTowerDefense.GameData
             {
                 terrainTiles = LoadFromFile("map.txt");
             }
+            Decorations = new List<Decoration>();
         }
 
         public Tile[,] CreateBlankMap()
@@ -117,7 +118,7 @@ namespace AlchemyTowerDefense.GameData
 
         public void PaintDecoration(int posx, int posy, Texture2D t)
         {
-            Decorations.Add(new Decoration(new Rectangle(posx - (size/2), posy - (size/2), size, size), t));
+            Decorations.Add(new Decoration(new Rectangle(posx /* - (size/2)*/, posy /*- (size/2)*/, size, size), t));
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -125,6 +126,10 @@ namespace AlchemyTowerDefense.GameData
             foreach(Tile t in terrainTiles)
             {
                 t.draw(spriteBatch);
+            }
+            foreach(Decoration d in Decorations)
+            {
+                d.Draw(spriteBatch);
             }
         }
 

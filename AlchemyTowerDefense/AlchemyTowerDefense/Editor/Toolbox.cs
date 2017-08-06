@@ -19,6 +19,7 @@ namespace AlchemyTowerDefense.Editor
 
         TextureDict toolboxTD;
         TextureDict tilesTextureDict;
+        TextureDict decoTextures;
         TextureDict mouseTextures;
 
         public List<Button> tileButtons = new List<Button>();
@@ -30,6 +31,7 @@ namespace AlchemyTowerDefense.Editor
         {
             toolboxTD = new TextureDict(c, "toolbox");
             tilesTextureDict = new TextureDict(c, "tiles");
+            decoTextures = new TextureDict(c, "decos");
             this.mouseTextures = mouseTextures;
             background = toolboxTD.dict["toolboxbackground"];
             rect = new Rectangle(1280 - background.Width, 0, background.Width, background.Height);
@@ -39,13 +41,15 @@ namespace AlchemyTowerDefense.Editor
         private void PopulateToolbox()
         {
             List<Texture2D> tileList = new List<Texture2D>(tilesTextureDict.dict.Values);
+            List<Texture2D> decoList = new List<Texture2D>(decoTextures.dict.Values);
+            tileList = tileList.Concat(decoList).ToList();
             int i = 0;
             int k = 0;
             foreach(Texture2D t in tileList)
             {
                 tileButtons.Add(new Button(t, new Rectangle((rect.Left + 20 + k * 84), (rect.Top + 20 + i * 84), 64, 64)));
                 i++;
-                if(i % 10 == 0)
+                if(i % (tileList.Count / 2) == 0)
                 {
                     i = 0;
                     k++;
@@ -69,6 +73,11 @@ namespace AlchemyTowerDefense.Editor
                     }
                 }
             }
+        }
+
+        private void HandleInput()
+        {
+
         }
 
         public Texture2D Click()
