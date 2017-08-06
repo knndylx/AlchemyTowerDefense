@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using AlchemyTowerDefense.Util;
+
 namespace AlchemyTowerDefense
 {
     public class EditorState: GameState
@@ -33,8 +35,10 @@ namespace AlchemyTowerDefense
         public override void Initialize()
         {
             //set up the input processor so that it looks for the only key that we need right now which is the t key for the toolbox menu pop-up
-            List<Keys> listkeys = new List<Keys>();
-            listkeys.Add(Keys.T);
+            List<Keys> listkeys = new List<Keys>
+            {
+                Keys.T
+            };
             mInputProcessor.Initialize(listkeys);
         }
 
@@ -44,6 +48,7 @@ namespace AlchemyTowerDefense
             cursorx = Mouse.GetState().X;
             cursory = Mouse.GetState().Y;
 
+            //bind mouse to the screen
             if (cursorx < 0)
                 cursorx = 0;
             else if (cursorx > 1279)

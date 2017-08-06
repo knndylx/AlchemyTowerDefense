@@ -48,7 +48,7 @@
     <Compile Include="GameData\Map.cs" />
     <Compile Include="GameData\Tile.cs" />
     <Compile Include="GameState.cs" />
-    <Compile Include="InputProcessor.cs" />
+    <Compile Include="Util\InputProcessor.cs" />
     <Compile Include="PlayingState.cs" />
     <Compile Include="GameStateManager.cs" />
     <Compile Include="Menu.cs" />

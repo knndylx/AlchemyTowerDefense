@@ -19,9 +19,9 @@ namespace AlchemyTowerDefense
         public GameStateManager(ContentManager c)
         {
             //add the three states to the states list
-            MenuState mainmenu = new MenuState(c, 2);
+            MenuState mainmenu = new MenuState();
             states.Add(mainmenu);
-            mainmenu.pressEvent += OnStateChange;
+            mainmenu.PressEvent += OnStateChange;
             states.Add(new PlayingState());
             states.Add(new EditorState());
             currentState = states[State];

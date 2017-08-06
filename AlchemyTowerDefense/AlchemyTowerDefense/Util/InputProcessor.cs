@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework.Input;
 
-namespace AlchemyTowerDefense
+namespace AlchemyTowerDefense.Util
 {
     //processes and stores the current and previous state of the buttons on the mouse and keyboard
     public class InputProcessor

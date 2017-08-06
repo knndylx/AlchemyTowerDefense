@@ -15,55 +15,51 @@ namespace AlchemyTowerDefense
     public class MenuState: GameState
     {
         //Menu menu;
-        List<Util.Button> buttons = new List<Util.Button>();
-        private int numButtons = 0;
         private int buttonCursorIndex = 0;
-        Util.Button gamebutton;
-        Util.Button editorbutton;
+        List<Keys> kList = new List<Keys>
+        {
+            Keys.Up,
+            Keys.Down,
+            Keys.Enter
+        };
+        Menu menu;
+        //Util.Button gamebutton;
+        //Util.Button editorbutton;
 
-        Dictionary<Keys, bool> previousButtonStates = new Dictionary<Keys, bool>();
-        Dictionary<Keys, bool> currentButtonStates = new Dictionary<Keys, bool>();
+
 
         public delegate void PressDelegate(int i);
-        public event PressDelegate pressEvent;
+        public event PressDelegate PressEvent;
 
         public void Press()
         {
-            pressEvent?.Invoke(buttonCursorIndex + 1);
+            PressEvent?.Invoke(buttonCursorIndex + 1);
         }
 
         //must specify the number of buttons that you want in the menu
         //FRAGILE SOLUTION
         //BUG
-        public MenuState(ContentManager c, int numButtons = 2)
+        public MenuState()
         {
-            this.numButtons = numButtons;
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
-            LoadButtonStates();
-
+            menu = new Menu(ScreenWidth, ScreenHeight);
+            //menu.Initialize();
+            base.LoadButtonStates(kList);
+            base.Initialize();
         }
 
-        private void LoadButtonStates()
-        {
-            KeyboardState keyState = Keyboard.GetState();
-            currentButtonStates.Add(Keys.Up, keyState.IsKeyDown(Keys.Up));
-            currentButtonStates.Add(Keys.Down, keyState.IsKeyDown(Keys.Down));
-            currentButtonStates.Add(Keys.Enter, keyState.IsKeyDown(Keys.Enter));
-
-            previousButtonStates = new Dictionary<Keys, bool>(currentButtonStates);
-        }
 
         public override void LoadContent(ContentManager c)
         {
             //Console.Write("load content in menu state class");
-            textures = new TextureDict(c, "buttons");
-            gamebutton = MakeButton("gamebutton", 300, 100);
-            buttons.Add(gamebutton);
-            editorbutton = MakeButton("editorbutton", 300, 100);
-            buttons.Add(editorbutton);
+            menu.LoadContent(c, new List<string>
+            {
+                "gamebutton",
+                "editorbutton"
+            });
         }
 
         public override void Update()
@@ -76,9 +72,9 @@ namespace AlchemyTowerDefense
         private void SelectButton()
         {
             //make the button selected
-            for (int i = 0; i < buttons.Count; i++)
+            for (int i = 0; i < menu.buttons.Count; i++)
             {
-                Util.Button currentButton = buttons[i];
+                Util.Button currentButton = menu.buttons[i];
                 if (i == buttonCursorIndex) currentButton.Select();
                 else currentButton.Deselect();
             }
@@ -100,7 +96,7 @@ namespace AlchemyTowerDefense
             //else if the down button was pressed
             else if(currentButtonStates[Keys.Down] && !previousButtonStates[Keys.Down])
             {
-                if (buttonCursorIndex != buttons.Count - 1) buttonCursorIndex++;
+                if (buttonCursorIndex != menu.buttons.Count - 1) buttonCursorIndex++;
             }
             //else if the enter button was pressed
             else if(currentButtonStates[Keys.Enter] && !previousButtonStates[Keys.Enter])
@@ -109,25 +105,12 @@ namespace AlchemyTowerDefense
             }
         }
 
-        //add a button centered horizontally to the menu
-        public Util.Button MakeButton(string buttonName, int buttonWidth, int buttonHeight)
-        {
-            Texture2D texture = textures.dict[buttonName];
-            Util.Button button = new Util.Button(texture, new Rectangle(ScreenWidth / 2 - buttonWidth / 2,
-                                                              (ScreenHeight / (numButtons + 1) ) + ( (ScreenHeight / (numButtons + 1) ) * buttons.Count ) - (buttonHeight / 2),
-                                                              buttonWidth,
-                                                              buttonHeight));
-            //buttons.Add(button);
-            return button;
-        }
+
 
         //draw all buttons
         public override void Draw(SpriteBatch spriteBatch)
         {
-            foreach(Util.Button b in buttons)
-            {
-                b.Draw(spriteBatch);
-            }
+            menu.Draw(spriteBatch);
         }
     }
 }

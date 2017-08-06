@@ -55,5 +55,10 @@ namespace AlchemyTowerDefense.Util
                 spriteBatch.Draw(highlightTexture, rect, Color.White);
             }
         }
+
+        public void ChangeRect(Rectangle rect)
+        {
+            this.rect = rect;
+        }
     }
 }
