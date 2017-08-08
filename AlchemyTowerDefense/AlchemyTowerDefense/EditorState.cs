@@ -15,7 +15,7 @@ namespace AlchemyTowerDefense
 {
     public class EditorState: GameState
     {
-        GameData.Map map = new GameData.Map();
+        public GameData.Map Map { get; set; }
 
         TextureDict tileTextures;
         TextureDict mouseTextures;
@@ -32,13 +32,19 @@ namespace AlchemyTowerDefense
 
         Editor.Toolbox toolbox = new Editor.Toolbox();
 
+        public delegate void PressDelegate(int i);
+        public event PressDelegate StateChangeDelegate;
+
 
         public override void Initialize()
         {
+            //Console.Write("initializing the editor state");
+            Map = new GameData.Map();
             //set up the input processor so that it looks for the only key that we need right now which is the t key for the toolbox menu pop-up
             List<Keys> listkeys = new List<Keys>
             {
-                Keys.T
+                Keys.T,
+                Keys.Escape
             };
             mInputProcessor.Initialize(listkeys);
         }
@@ -77,7 +83,7 @@ namespace AlchemyTowerDefense
             mouseTexture = mouseTextures.dict["cursor"];
             highlightGridTexture = mouseTextures.dict["highlight"];
             toolbox.LoadContent(c, mouseTextures);
-            map.LoadContent(c);
+            Map.LoadContent(c);
             base.LoadContent(c);
         }
 
@@ -95,7 +101,7 @@ namespace AlchemyTowerDefense
 
         private void HandleInput()
         {
-            //if the left mouse button is pressed then paint the tile onto the map
+            //if the left mouse button is pressed then paint the tile onto the Map
             if (mInputProcessor.currentMouseState[Util.MouseButtons.Left] == ButtonState.Pressed && canvasActive == true)
             {
                 //Console.WriteLine(string.Format("changing tile at x:{0} y:{1}",gridx, gridy));
@@ -103,15 +109,15 @@ namespace AlchemyTowerDefense
                 //if the brush is a tile
                 if (tileTextures.dict.ContainsValue(brushTexture))
                 {
-                    if (map.terrainTiles[gridy, gridx].texture != brushTexture)
-                        map.ChangeTile(gridx, gridy, brushTexture);
+                    if (Map.terrainTiles[gridy, gridx].texture != brushTexture)
+                        Map.ChangeTile(gridx, gridy, brushTexture);
                 }
                 //else if the brush is a decoration
                 else if (decorationTextures.dict.ContainsValue(brushTexture))
                 {
                     if(mInputProcessor.previousMouseState[Util.MouseButtons.Left] == ButtonState.Released)
                     {
-                        map.PaintDecoration(Mouse.GetState().X, Mouse.GetState().Y, brushTexture);
+                        Map.PaintDecoration(Mouse.GetState().X, Mouse.GetState().Y, brushTexture);
                     }
                 }
             }
@@ -137,15 +143,18 @@ namespace AlchemyTowerDefense
             {
                 canvasActive = true;
                 toolbox.active = false;
-                map.SaveToFile("map.txt");
+                Map.SaveToFile("Map.txt");
             }
 
-            
+            if (mInputProcessor.currentButtonStates[Keys.Escape] && !mInputProcessor.previousButtonStates[Keys.Escape])
+            {
+                StateChangeDelegate?.Invoke(3);
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            map.Draw(spriteBatch);
+            Map.Draw(spriteBatch);
             if(canvasActive)
                 spriteBatch.Draw(highlightGridTexture, new Vector2(cursorx, cursory), Color.White);
             toolbox.Draw(spriteBatch);

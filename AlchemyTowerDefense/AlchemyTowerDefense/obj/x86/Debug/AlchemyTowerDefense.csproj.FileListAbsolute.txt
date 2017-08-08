@@ -104,3 +104,6 @@ C:\Users\akenn\Documents\GitHub\AlchemyTowerDefense\AlchemyTowerDefense\AlchemyT
 C:\Users\akenn\Documents\GitHub\AlchemyTowerDefense\AlchemyTowerDefense\AlchemyTowerDefense\bin\Windows\x86\Debug\SharpDX.Direct2D1.xml
 C:\Users\akenn\Documents\GitHub\AlchemyTowerDefense\AlchemyTowerDefense\AlchemyTowerDefense\bin\Windows\x86\Debug\SharpDX.XInput.xml
 C:\Users\akenn\Documents\GitHub\AlchemyTowerDefense\AlchemyTowerDefense\AlchemyTowerDefense\bin\Windows\x86\Debug\SharpDX.Direct3D9.xml
+C:\Users\akenn\Documents\GitHub\AlchemyTowerDefense\AlchemyTowerDefense\AlchemyTowerDefense\bin\Windows\x86\Debug\Content\buttons\load.xnb
+C:\Users\akenn\Documents\GitHub\AlchemyTowerDefense\AlchemyTowerDefense\AlchemyTowerDefense\bin\Windows\x86\Debug\Content\buttons\mainmenu.xnb
+C:\Users\akenn\Documents\GitHub\AlchemyTowerDefense\AlchemyTowerDefense\AlchemyTowerDefense\bin\Windows\x86\Debug\Content\buttons\save.xnb

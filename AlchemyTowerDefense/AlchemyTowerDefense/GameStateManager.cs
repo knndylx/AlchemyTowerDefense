@@ -19,27 +19,33 @@ namespace AlchemyTowerDefense
         public GameStateManager(ContentManager c)
         {
             //add the three states to the states list
-            MenuState mainmenu = new MenuState();
+            MainMenuState mainmenu = new MainMenuState();
             states.Add(mainmenu);
-            mainmenu.PressEvent += OnStateChange;
+            mainmenu.StateChangeEvent += OnStateChange;
+
             states.Add(new PlayingState());
-            states.Add(new EditorState());
-            MenuState editorPauseMenu = new MenuState();
+
+            EditorState editor = new EditorState();
+            editor.StateChangeDelegate += OnStateChange;
+            states.Add(editor);
+
+            PauseMenuState editorPauseMenu = new PauseMenuState(editor);
             states.Add(editorPauseMenu);
-            mainmenu.PressEvent += OnStateChange;
+            editorPauseMenu.StateChangeEvent += OnStateChange;
+
             currentState = states[State];
         }
 
         public void Initialize()
         {
-            foreach(GameState gs in states)
+            foreach(var gs in states)
             {
                 gs.Initialize();
             }
         }
         public void LoadContent(ContentManager c)
         {
-            foreach(GameState gs in states)
+            foreach(var gs in states)
             {
                 gs.LoadContent(c);
             }
@@ -57,7 +63,7 @@ namespace AlchemyTowerDefense
 
         public void OnStateChange(int i)
         {
-            //Console.Write("state changed " + i + "//");
+            Console.Write("state changed " + i + "//");
             State = i;
             currentState = states[State];
         }

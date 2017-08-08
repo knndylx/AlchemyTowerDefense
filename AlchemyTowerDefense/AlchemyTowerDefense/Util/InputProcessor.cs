@@ -28,6 +28,7 @@ namespace AlchemyTowerDefense.Util
         //BUG: only the left and right mouse button are taken into consideration right now
         public void Initialize(List<Keys> keyButtons)
         {
+            //Console.Write("initializing" + keyButtons.ToString());
             keyState = Keyboard.GetState();
             mouseState = Mouse.GetState();
             foreach (Keys k in keyButtons)

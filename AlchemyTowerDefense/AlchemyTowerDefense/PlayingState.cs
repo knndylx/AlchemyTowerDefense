@@ -13,7 +13,7 @@ namespace AlchemyTowerDefense
 {
     public class PlayingState: GameState
     {
-        public bool active { get; private set; }
+        public bool Active { get; private set; }
 
         private GameData.Map map;
 
@@ -24,7 +24,7 @@ namespace AlchemyTowerDefense
 
         public override void LoadContent(ContentManager c)
         {
-            map.LoadContent(c, "map.txt");
+            map.LoadContent(c, "Map.txt");
         }
 
         public override void Draw(SpriteBatch spriteBatch)

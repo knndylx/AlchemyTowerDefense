@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-
+using AlchemyTowerDefense.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -39,7 +39,7 @@ namespace AlchemyTowerDefense.GameData
             }
             else
             {
-                terrainTiles = LoadFromFile("map.txt");
+                LoadFromFile("Map.txt");
             }
             
         }
@@ -64,11 +64,14 @@ namespace AlchemyTowerDefense.GameData
 
 
 
-        //generates the map based on the file specified
-        public Tile[,] LoadFromFile(string mapFileName)
+        //generates the Map based on the file specified
+        public void LoadFromFile(string mapFileName)
         {
+
+            Console.Write("loading in map");
             //List<List<string>> mapText = new List<List<string>>();
-            Tile[,] terrainTiles = new Tile[15,20];
+            //Tile[,] terrainTiles = new Tile[15,20];
+            terrainTiles = new Tile[15,20];
 
             List<string> mapText = GetTerrainTextFromFile(mapFileName);
 
@@ -86,6 +89,7 @@ namespace AlchemyTowerDefense.GameData
             }
             //load the decorations
             List<string> decorationText = GetDecoTextFromFile(mapText);
+            Decorations.Clear();
             for(int i = 0; i < decorationText.Count / 4; i++)
             {
                 Texture2D textureForDeco = decoTextureDict.dict[decorationText[i * 4]];
@@ -94,10 +98,10 @@ namespace AlchemyTowerDefense.GameData
                 float rot = float.Parse(decorationText[i * 4 + 3]);
                 Decorations.Add(new Decoration(new Rectangle(rectX, rectY, size, size), textureForDeco));
             }
-            return terrainTiles;
+            //return terrainTiles;
         }
 
-        //get the decoration text from the map list used for loading the map
+        //get the decoration text from the Map list used for loading the Map
         private List<string> GetDecoTextFromFile(List<string> mapText)
         {
             List<string> decoText = new List<string>();

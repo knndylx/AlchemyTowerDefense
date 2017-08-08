@@ -39,7 +39,7 @@ namespace AlchemyTowerDefense
         public void LoadContent(ContentManager c, List<string> buttonStringList)
         {
             textures = new TextureDict(c, "buttons");
-            foreach (string s in buttonStringList)
+            foreach (var s in buttonStringList)
             {
                 buttons.Add(MakeButton(s, 300, 100));
             }
@@ -49,8 +49,8 @@ namespace AlchemyTowerDefense
         //add a button centered horizontally to the menu
         public Util.Button MakeButton(string buttonName, int buttonWidth, int buttonHeight)
         {
-            Texture2D texture = textures.dict[buttonName];
-            Util.Button button = new Util.Button(texture, new Rectangle(0,
+            var texture = textures.dict[buttonName];
+            var button = new Util.Button(texture, new Rectangle(0,
                                                                         0,
                                                                         buttonWidth,
                                                                         buttonHeight));
@@ -60,16 +60,9 @@ namespace AlchemyTowerDefense
 
         public void FinalizeButtons()
         {
-            //foreach(Button b in buttons)
-            //{
-            //    b.ChangeRect(new Rectangle(screenWidth / 2 - b.rect.Width / 2,
-            //                              (screenHeight / (buttons.Count + 1)) + ((screenHeight / (buttons.Count + 1)) * buttons.Count) - (b.rect.Height / 2),
-            //                              b.rect.Width,
-            //                              b.rect.Height));
-            //}
-            for(int i = 0; i < buttons.Count; i++)
+            for(var i = 0; i < buttons.Count; i++)
             {
-                Button b = buttons[i];
+                var b = buttons[i];
                 b.ChangeRect(new Rectangle(screenWidth / 2 - b.rect.Width / 2,
                                           (screenHeight / (buttons.Count + 1)) + ((screenHeight / (buttons.Count + 1)) * i) - (b.rect.Height / 2),
                                           b.rect.Width,
@@ -80,7 +73,7 @@ namespace AlchemyTowerDefense
         //draw all buttons
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (Util.Button b in buttons)
+            foreach (var b in buttons)
             {
                 b.Draw(spriteBatch);
             }

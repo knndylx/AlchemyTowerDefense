@@ -33,5 +33,8 @@
     <File>C:/Users/akenn/Documents/GitHub/AlchemyTowerDefense/AlchemyTowerDefense/AlchemyTowerDefense/Content/tiles/towerDefense_tile119.png</File>
     <File>C:/Users/akenn/Documents/GitHub/AlchemyTowerDefense/AlchemyTowerDefense/AlchemyTowerDefense/Content/tiles/blank.png</File>
     <File>C:/Users/akenn/Documents/GitHub/AlchemyTowerDefense/AlchemyTowerDefense/AlchemyTowerDefense/Content/toolbox/toolboxbackground.png</File>
+    <File>C:/Users/akenn/Documents/GitHub/AlchemyTowerDefense/AlchemyTowerDefense/AlchemyTowerDefense/Content/buttons/mainmenu.png</File>
+    <File>C:/Users/akenn/Documents/GitHub/AlchemyTowerDefense/AlchemyTowerDefense/AlchemyTowerDefense/Content/buttons/save.png</File>
+    <File>C:/Users/akenn/Documents/GitHub/AlchemyTowerDefense/AlchemyTowerDefense/AlchemyTowerDefense/Content/buttons/load.png</File>
   </SourceFiles>
 </SourceFileCollection>

@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace AlchemyTowerDefense
 {
-    public class MenuState: GameState
+    public class MainMenuState: GameState
     {
         //Menu menu;
         private int buttonCursorIndex = 0;
@@ -22,30 +22,25 @@ namespace AlchemyTowerDefense
             Keys.Down,
             Keys.Enter
         };
-        Menu menu;
+
+        public Menu Menu { get; private set; }
+
         //Util.Button gamebutton;
         //Util.Button editorbutton;
 
 
 
         public delegate void PressDelegate(int i);
-        public event PressDelegate PressEvent;
+        public event PressDelegate StateChangeEvent;
 
         public void Press()
         {
-            PressEvent?.Invoke(buttonCursorIndex + 1);
-        }
-
-        //must specify the number of buttons that you want in the menu
-        //FRAGILE SOLUTION
-        //BUG
-        public MenuState()
-        {
+            StateChangeEvent?.Invoke(buttonCursorIndex + 1);
         }
 
         public override void Initialize()
         {
-            menu = new Menu(ScreenWidth, ScreenHeight);
+            Menu = new Menu(ScreenWidth, ScreenHeight);
             //menu.Initialize();
             base.LoadButtonStates(kList);
             base.Initialize();
@@ -55,7 +50,7 @@ namespace AlchemyTowerDefense
         public override void LoadContent(ContentManager c)
         {
             //Console.Write("load content in menu state class");
-            menu.LoadContent(c, new List<string>
+            Menu.LoadContent(c, new List<string>
             {
                 "gamebutton",
                 "editorbutton"
@@ -72,9 +67,9 @@ namespace AlchemyTowerDefense
         private void SelectButton()
         {
             //make the button selected
-            for (int i = 0; i < menu.buttons.Count; i++)
+            for (var i = 0; i < Menu.buttons.Count; i++)
             {
-                Util.Button currentButton = menu.buttons[i];
+                var currentButton = Menu.buttons[i];
                 if (i == buttonCursorIndex) currentButton.Select();
                 else currentButton.Deselect();
             }
@@ -83,7 +78,7 @@ namespace AlchemyTowerDefense
         public void ProcessInput()
         {
             previousButtonStates = new Dictionary<Keys, bool>(currentButtonStates);
-            KeyboardState keyState = Keyboard.GetState();
+            var keyState = Keyboard.GetState();
             currentButtonStates[Keys.Up] = keyState.IsKeyDown(Keys.Up);
             currentButtonStates[Keys.Down] = keyState.IsKeyDown(Keys.Down);
             currentButtonStates[Keys.Enter] = keyState.IsKeyDown(Keys.Enter);
@@ -96,7 +91,7 @@ namespace AlchemyTowerDefense
             //else if the down button was pressed
             else if(currentButtonStates[Keys.Down] && !previousButtonStates[Keys.Down])
             {
-                if (buttonCursorIndex != menu.buttons.Count - 1) buttonCursorIndex++;
+                if (buttonCursorIndex != Menu.buttons.Count - 1) buttonCursorIndex++;
             }
             //else if the enter button was pressed
             else if(currentButtonStates[Keys.Enter] && !previousButtonStates[Keys.Enter])
@@ -110,7 +105,7 @@ namespace AlchemyTowerDefense
         //draw all buttons
         public override void Draw(SpriteBatch spriteBatch)
         {
-            menu.Draw(spriteBatch);
+            Menu.Draw(spriteBatch);
         }
     }
 }

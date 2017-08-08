@@ -13,7 +13,7 @@ namespace AlchemyTowerDefense
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameStateManager gsm;
-        //Map map = new Map();
+        //Map Map = new Map();
 
         public AlchemyGame()
         {
@@ -49,7 +49,7 @@ namespace AlchemyTowerDefense
             spriteBatch = new SpriteBatch(GraphicsDevice);
             gsm.LoadContent(Content);
 
-            //map.LoadContent(Content);
+            //Map.LoadContent(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -70,8 +70,8 @@ namespace AlchemyTowerDefense
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
 
             // TODO: Add your update logic here
             gsm.Update();
@@ -89,7 +89,7 @@ namespace AlchemyTowerDefense
 
             spriteBatch.Begin();
             gsm.Draw(spriteBatch);
-            //map.draw(spriteBatch);
+            //Map.draw(spriteBatch);
             spriteBatch.End();
             
             base.Draw(gameTime);
