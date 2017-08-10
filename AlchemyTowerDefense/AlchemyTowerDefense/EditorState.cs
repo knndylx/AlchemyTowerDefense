@@ -143,7 +143,7 @@ namespace AlchemyTowerDefense
             {
                 canvasActive = true;
                 toolbox.active = false;
-                Map.SaveToFile("Map.txt");
+                //Map.SaveToFile("Map.txt");
             }
 
             if (mInputProcessor.currentButtonStates[Keys.Escape] && !mInputProcessor.previousButtonStates[Keys.Escape])

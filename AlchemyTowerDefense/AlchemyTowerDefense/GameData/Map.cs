@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using AlchemyTowerDefense.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -65,43 +66,64 @@ namespace AlchemyTowerDefense.GameData
 
 
         //generates the Map based on the file specified
-        public void LoadFromFile(string mapFileName)
-        {
-
-            Console.Write("loading in map");
-            //List<List<string>> mapText = new List<List<string>>();
-            //Tile[,] terrainTiles = new Tile[15,20];
-            terrainTiles = new Tile[15,20];
-
-            List<string> mapText = GetTerrainTextFromFile(mapFileName);
-
-            int x = 0;
-            int y = 0;
-            //load the tiles
-            for (x = 0; x < 20; x++)
-            {
-                for (y = 0; y < 15; y++)
-                {
-                    string tileType = mapText[x*y];
-                    terrainTiles[y,x] = new Tile(new Rectangle(x * size, y * size, size, size), textureDict.dict[tileType]);
-
-                }
-            }
-            //load the decorations
-            List<string> decorationText = GetDecoTextFromFile(mapText);
-            Decorations.Clear();
-            for(int i = 0; i < decorationText.Count / 4; i++)
-            {
-                Texture2D textureForDeco = decoTextureDict.dict[decorationText[i * 4]];
-                int rectX = int.Parse(decorationText[i * 4 + 1]);
-                int rectY = int.Parse(decorationText[i * 4 + 2]);
-                float rot = float.Parse(decorationText[i * 4 + 3]);
-                Decorations.Add(new Decoration(new Rectangle(rectX, rectY, size, size), textureForDeco));
-            }
-            //return terrainTiles;
-        }
+        //public void LoadFromFile(string mapFileName)
+        //{
+        //
+        //    Console.Write("loading in map");
+        //    //List<List<string>> mapText = new List<List<string>>();
+        //    //Tile[,] terrainTiles = new Tile[15,20];
+        //    terrainTiles = new Tile[15,20];
+        //
+        //    List<string> mapText = GetTerrainTextFromFile(mapFileName);
+        //
+        //    int x = 0;
+        //    int y = 0;
+        //    //load the tiles
+        //    for (x = 0; x < 20; x++)
+        //    {
+        //        for (y = 0; y < 15; y++)
+        //        {
+        //            string tileType = mapText[x*y];
+        //            if(x == 2 && y == 5)
+        //                ChangeTile(x,y,textureDict.dict["towerDefense_tile069"]);
+        //            else
+        //                ChangeTile(x,y, textureDict.dict["blank"]);
+        //
+        //        }
+        //    }
+        //    //load the decorations
+        //    List<string> decorationText = GetDecoTextFromFile(mapText);
+        //    Decorations.Clear();
+        //    for(int i = 0; i < decorationText.Count / 4; i++)
+        //    {
+        //        Texture2D textureForDeco = decoTextureDict.dict[decorationText[i * 4]];
+        //        int rectX = int.Parse(decorationText[i * 4 + 1]);
+        //        int rectY = int.Parse(decorationText[i * 4 + 2]);
+        //        float rot = float.Parse(decorationText[i * 4 + 3]);
+        //        Decorations.Add(new Decoration(new Rectangle(rectX, rectY, size, size), textureForDeco));
+        //    }
+        //    //return terrainTiles;
+        //}
 
         //get the decoration text from the Map list used for loading the Map
+
+        public void LoadFromFile(string filename)
+        {
+            List<string> terrainText = GetTerrainTextFromFile("Map.txt");
+            terrainTiles = CreateBlankMap();
+
+            int tileCount = 0;
+            for (var y = 0; y < 15; y++)
+            {
+                for (var x = 0; x < 20; x++)
+                {
+                    string tiletype = terrainText[tileCount];
+                    ChangeTile(x,y,textureDict.dict[tiletype]);
+                    tileCount++;
+                }
+            }
+        }
+
         private List<string> GetDecoTextFromFile(List<string> mapText)
         {
             List<string> decoText = new List<string>();
@@ -128,15 +150,16 @@ namespace AlchemyTowerDefense.GameData
                     string writeName = FormatTextureNameString(t.texture.Name);
                     sw.WriteLine(writeName);
                 }
-                sw.WriteLine("====");
-                foreach(Decoration d in Decorations)
-                {
-                    string writeName = FormatTextureNameString(d.texture.Name);
-                    sw.WriteLine(writeName);
-                    sw.WriteLine(d.rect.X);
-                    sw.WriteLine(d.rect.Y);
-                    sw.WriteLine(d.rotation);
-                }
+                //sw.WriteLine("====");
+                //foreach(Decoration d in Decorations)
+                //{
+                //    string writeName = FormatTextureNameString(d.texture.Name);
+                //    sw.WriteLine(writeName);
+                //    sw.WriteLine(d.rect.X);
+                //    sw.WriteLine(d.rect.Y);
+                //    sw.WriteLine(d.rotation);
+                //}
+                sw.Close();
             }
         }
 
